@@ -1,0 +1,29 @@
+#mongodb:
+##  host: mongodb://localhost/?replicaset=rs0
+#  host: localhost
+#  port: 27017
+#  name: invoices
+
+sqllite:
+  name: sqlite:///sqlalchemy_example.db
+
+
+## https://www.python.org/dev/peps/pep-0391/
+#logging:
+#  version: 1
+#  disable_existing_loggers: False
+#  root:
+#    handlers:
+#      - default
+#    level: DEBUG
+#  filters:
+#    request_id:
+#      (): bobcat_common.request_id.request_id_filter
+#  handlers:
+#    default:
+#      class: logging.StreamHandler
+#      formatter: default
+#      filters: [ 'request_id']
+#  formatters:
+#    default:
+#      format: '%(asctime)s %(name)s %(levelname)s %(request_id)s %(message)s'

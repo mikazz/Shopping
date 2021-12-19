@@ -1,0 +1,165 @@
+swagger: '2.0'
+info:
+  version: v1
+  title: Shopping API
+basePath: /api/v1
+
+paths:
+  '/healthcheck':
+    get:
+      summary: API healthcheck
+      operationId: healthcheck
+      x-swagger-router-controller: shopping.controller
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: successful operation
+
+  '/shopping_lists':
+    get:
+      summary: Get all shopping lists
+      operationId: get_shopping_lists
+      x-swagger-router-controller: shopping.controller
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: successful operation
+
+    post:
+      summary: Add new shopping list
+      operationId: add_shopping_list
+      x-swagger-router-controller: shopping.controller
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+
+  '/shopping_lists/{id}':
+    patch:
+      description: Update selected shopping list
+      operationId: update_shopping_list
+      x-swagger-router-controller: shopping.controller
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: MTB bearer ID
+          required: true
+          type: string
+        - name: item
+          in: body
+          description: MTB bearer info
+          required: true
+          schema:
+            $ref: '#/definitions/shopping_list_update_information'
+      responses:
+        '200':
+          description: Successful operation
+    delete:
+      description: Delete Shopping List.
+      operationId: delete_shopping_list
+      x-swagger-router-controller: shopping.controller
+      parameters:
+        - name: id
+          in: path
+          description: Shopping list ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+
+
+  '/products/{id}':
+    get:
+      description: |
+        Get specified Product
+      operationId: get_product
+      x-swagger-router-controller: shopping.controller
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Product ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/product'
+
+    patch:
+      description: Update selected Product
+      operationId: update_product
+      x-swagger-router-controller: shopping.controller
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: MTB bearer ID
+          required: true
+          type: string
+        - name: item
+          in: body
+          description: MTB bearer info
+          required: true
+          schema:
+            $ref: '#/definitions/product_update_information'
+      responses:
+        '200':
+          description: Successful operation
+
+    delete:
+      description: Delete Selected Product.
+      operationId: delete_product
+      x-swagger-router-controller: shopping.controller
+      parameters:
+        - name: id
+          in: path
+          description: Product ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+
+definitions:
+  shopping_list_update_information:
+    type: object
+    properties:
+      owner:
+        description: Name of the owner
+        type: string
+
+  product_update_information:
+    type: object
+    properties:
+      name:
+        description: Name of the owner
+        type: string
+      descr:
+        description: Product description
+        type: string
+  product:
+    type: object
+    properties:
+      name:
+        description: Name of the owner
+        type: string
+      descr:
+        description: Product description
+        type: string
+      is_purchased:
+        description: Has product been purchased
+        type: boolean
