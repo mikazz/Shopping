@@ -1,15 +1,11 @@
 import logging
+from flask import abort, jsonify
 from typing import Any
-from database import db
+from shopping import db_session
 from shopping.models import ShoppingList, Product
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
 logger = logging.getLogger(__name__)
-
-
-def error(message: str) -> dict:
-    _logger = logger.getChild("error")
-    _logger.info(f"Returning error: {message}")
-    return {"error": message}
 
 
 def healthcheck() -> Any:
@@ -19,22 +15,31 @@ def healthcheck() -> Any:
     return {"status": "OK"}
 
 
-# def get_invoices() -> Any:
-#     """Get all invoices"""
-#     pass
-#     #return Invoice.objects.to_json()
-
-
 def get_shopping_lists():
     """Return all shopping lists"""
-    pass
+    session = db_session.create_session()
+    shopping_lists = session.query(ShoppingList).all()
+    return [i.as_dict() for i in shopping_lists]
 
 
-def add_shopping_list():
+def get_shopping_list(owner: str):
+    session = db_session.create_session()
+    return session.query(ShoppingList).filter(ShoppingList.owner == owner).first()
+
+
+def add_shopping_list(new_shopping_list: dict):
     """Add shopping list"""
-    shopping_list = ShoppingList(owner="Steve")
-    db.session.add(shopping_list)
-    db.session.commit()
+    logger.debug("Adding new shopping list")
+    session = db_session.create_session()
+    owner = new_shopping_list["owner"]
+    shopping_list = ShoppingList(owner=owner)
+    session.add(shopping_list)
+    try:
+        session.commit()
+    except IntegrityError:
+        abort(404)
+    except SQLAlchemyError:
+        abort(404)
 
 
 def update_shopping_list():

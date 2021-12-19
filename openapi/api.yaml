@@ -33,6 +33,12 @@ paths:
       x-swagger-router-controller: shopping.controller
       produces:
         - application/json
+      parameters:
+        - name: new_shopping_list
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/new_shopping_list'
       responses:
         '200':
           description: successful operation
@@ -57,7 +63,7 @@ paths:
           description: MTB bearer info
           required: true
           schema:
-            $ref: '#/definitions/shopping_list_update_information'
+            $ref: '#/definitions/shopping_list'
       responses:
         '200':
           description: Successful operation
@@ -135,11 +141,20 @@ paths:
           description: Successful operation
 
 definitions:
-  shopping_list_update_information:
+  shopping_list:
     type: object
     properties:
       owner:
         description: Name of the owner
+        type: string
+
+  new_shopping_list:
+    type: object
+    required:
+      - owner
+    properties:
+      owner:
+        description: New shopping list owner name
         type: string
 
   product_update_information:

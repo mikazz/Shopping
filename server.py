@@ -1,22 +1,11 @@
-from shopping import __version__
+from shopping import __version__, db_session
 import argparse
 import logging
 import os
 import pathlib
 from typing import Optional
 import connexion
-from flask_sqlalchemy import SQLAlchemy
-
-# from bobcat_common.connexion_common import (
-#     connexion_error_handler,
-#     log_request,
-#     log_response,
-#     register_server_info,
-#     set_connexion_error_handler,
-# )
 from flask.app import Flask
-from flask.testing import FlaskClient
-
 
 DEFAULT_CONFIG = os.path.join("examples", "config.yaml")
 
@@ -26,8 +15,6 @@ def app_factory() -> Flask:
     connexion_app = connexion.App(__name__, specification_dir="openapi/")
     # API from /openapi/*
     connexion_app.add_api(pathlib.Path("api.yaml"))
-
-    #connexion_app.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.sqlite'
     return connexion_app.app
 
 
@@ -42,7 +29,7 @@ def generate_app(config_file: Optional[str] = None) -> Flask:
     return app_factory()
 
 
-def generate_test_client(config_file: str) -> FlaskClient:
+def generate_test_client(config_file: Optional[str] = None):
     """Unit servertest"""
     app = generate_app(config_file)
     return app.test_client()
@@ -73,5 +60,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    db_session.global_init('mars_db.sqlite')
     main()
 
