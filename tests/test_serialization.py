@@ -10,12 +10,10 @@ session = db_session.create_session()
 
 
 class Case(unittest.TestCase):
-    def setUp(self):
-        tc = generate_test_client()
-
     def test_db_add_shopping_list(self):
         shopping_list = ShoppingList()
         shopping_list.owner = "Steve"
         session.add(shopping_list)
         session.commit()
         shopping_list = session.query(ShoppingList).filter(ShoppingList.owner == "Steve").first()
+

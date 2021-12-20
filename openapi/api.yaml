@@ -43,7 +43,23 @@ paths:
         '200':
           description: successful operation
 
-  '/shopping_lists/{id}':
+  '/shopping_lists/{owner}':
+    get:
+      summary: Get specified shopping list
+      operationId: get_shopping_list
+      x-swagger-router-controller: shopping.controller
+      produces:
+        - application/json
+      parameters:
+        - name: owner
+          in: path
+          description: Shopping list Owner
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+
     patch:
       description: Update selected shopping list
       operationId: update_shopping_list
@@ -53,9 +69,9 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: id
+        - name: owner
           in: path
-          description: MTB bearer ID
+          description: Shopping list Owner
           required: true
           type: string
         - name: item
@@ -72,9 +88,9 @@ paths:
       operationId: delete_shopping_list
       x-swagger-router-controller: shopping.controller
       parameters:
-        - name: id
+        - name: owner
           in: path
-          description: Shopping list ID
+          description: Shopping list Owner
           required: true
           type: string
       responses:

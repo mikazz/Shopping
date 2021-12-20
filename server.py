@@ -7,7 +7,7 @@ from typing import Optional
 import connexion
 from flask.app import Flask
 
-DEFAULT_CONFIG = os.path.join("examples", "config.yaml")
+DEFAULT_CONFIG = os.path.join("config.yaml")
 
 
 def app_factory() -> Flask:
@@ -20,12 +20,7 @@ def app_factory() -> Flask:
 
 def generate_app(config_file: Optional[str] = None) -> Flask:
     """Generate app"""
-    # if config_file is None:
-    #     try:
-    #         config_file = os.environ["BOBCAT_INVOICE_CONFIG"]
-    #     except KeyError:
-    #         config_file = DEFAULT_CONFIG
-    # shared.init(config_file)
+    db_session.global_init('mars_db.sqlite')
     return app_factory()
 
 
@@ -60,6 +55,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    db_session.global_init('mars_db.sqlite')
     main()
 

@@ -1,15 +1,20 @@
 import unittest
 from shopping import db_session
 from shopping.controller import add_shopping_list, get_shopping_list
-from shopping.models import ShoppingList
+from shopping.models import ShoppingList, Product
 
 db_session.global_init(':memory:')
+#db_session.global_init('mars_db2.sqlite')
 session = db_session.create_session()
 
 
 class Case(unittest.TestCase):
     def setUp(self):
         pass
+
+    # def tearDown(self):
+    #     ShoppingList.__tablename__.drop()
+    #     Product.__tablename__.drop()
 
     def test_db_add_shopping_list(self):
         shopping_list = ShoppingList()
@@ -24,3 +29,11 @@ class Case(unittest.TestCase):
         add_shopping_list(shopping_list_data)
         shopping_list = get_shopping_list(owner="Mike")
         self.assertEqual(shopping_list.owner, "Mike")
+
+    def test_db_add_product_to_shopping_list(self):
+        shopping_list_data = {"owner": "Larry"}
+        add_shopping_list(shopping_list_data)
+        shopping_list = get_shopping_list(owner="Larry")
+        product_1 = Product(name="Milk", descr="1L", shopping_list_id=shopping_list.id, is_purchased=True)
+        session.add(product_1)
+        session.commit()

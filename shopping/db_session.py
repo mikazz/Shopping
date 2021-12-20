@@ -20,7 +20,6 @@ def global_init(db_file):
     if not db_file or not db_file.strip():
         raise Exception("You must specify a database")
 
-    # 'sqlite:///:memory:'
     conn_str = f'sqlite:///{db_file.strip()}?check_same_thread=False'
     logger.debug(f"Connecting to the database: {conn_str}")
 
