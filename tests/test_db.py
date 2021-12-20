@@ -4,7 +4,6 @@ from shopping.controller import add_shopping_list, get_shopping_list
 from shopping.models import ShoppingList, Product
 
 db_session.global_init(':memory:')
-#db_session.global_init('mars_db2.sqlite')
 session = db_session.create_session()
 
 

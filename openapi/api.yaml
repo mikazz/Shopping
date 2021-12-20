@@ -28,7 +28,8 @@ paths:
           description: successful operation
 
     post:
-      summary: Add new shopping list
+      summary: Add Shopping List
+      description: Add new shopping list
       operationId: add_shopping_list
       x-swagger-router-controller: shopping.controller
       produces:
@@ -45,7 +46,8 @@ paths:
 
   '/shopping_lists/{owner}':
     get:
-      summary: Get specified shopping list
+      summary: Get Shopping List
+      description: Get specified shopping list
       operationId: get_shopping_list
       x-swagger-router-controller: shopping.controller
       produces:
@@ -61,6 +63,7 @@ paths:
           description: successful operation
 
     patch:
+      summary: Update Shopping List
       description: Update selected shopping list
       operationId: update_shopping_list
       x-swagger-router-controller: shopping.controller
@@ -97,19 +100,47 @@ paths:
         '200':
           description: Successful operation
 
-
-  '/products/{id}':
+  '/products':
     get:
-      description: |
-        Get specified Product
+      summary: Get all Products
+      description: Get all Products.
+      operationId: get_products
+      x-swagger-router-controller: shopping.controller
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+
+    post:
+      summary: Add new Product
+      operationId: add_product
+      x-swagger-router-controller: shopping.controller
+      produces:
+        - application/json
+      parameters:
+        - name: new_product
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/new_product'
+      responses:
+        '200':
+          description: successful operation
+
+
+  '/products/{name}':
+    get:
+      summary: Get Product
+      description: Get specified Product
       operationId: get_product
       x-swagger-router-controller: shopping.controller
       produces:
         - application/json
       parameters:
-        - name: id
+        - name: name
           in: path
-          description: Product ID
+          description: Product Name
           required: true
           type: string
       responses:
@@ -119,6 +150,7 @@ paths:
             $ref: '#/definitions/product'
 
     patch:
+      summary: Update Product
       description: Update selected Product
       operationId: update_product
       x-swagger-router-controller: shopping.controller
@@ -127,29 +159,30 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: id
+        - name: name
           in: path
-          description: MTB bearer ID
+          description: Product Name
           required: true
           type: string
-        - name: item
+        - name: update_product_information
           in: body
-          description: MTB bearer info
+          description: Product update information
           required: true
           schema:
-            $ref: '#/definitions/product_update_information'
+            $ref: '#/definitions/update_product_information'
       responses:
         '200':
           description: Successful operation
 
     delete:
+      summary: Delete Product
       description: Delete Selected Product.
       operationId: delete_product
       x-swagger-router-controller: shopping.controller
       parameters:
-        - name: id
+        - name: name
           in: path
-          description: Product ID
+          description: Product Name
           required: true
           type: string
       responses:
@@ -182,12 +215,42 @@ definitions:
       descr:
         description: Product description
         type: string
+
   product:
     type: object
     properties:
       name:
-        description: Name of the owner
+        description: Product Name
         type: string
+      descr:
+        description: Product description
+        type: string
+      owner:
+        description: Product owner name, FK to ProductList
+        type: string
+      is_purchased:
+        description: Has product been purchased
+        type: boolean
+
+  new_product:
+    type: object
+    properties:
+      name:
+        description: Product Name
+        type: string
+      descr:
+        description: Product description
+        type: string
+      owner:
+        description: Assign Product to given owner, FK to ProductList
+        type: string
+      is_purchased:
+        description: Has product been purchased
+        type: boolean
+
+  update_product_information:
+    type: object
+    properties:
       descr:
         description: Product description
         type: string

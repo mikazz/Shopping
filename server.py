@@ -39,16 +39,13 @@ def main() -> None:
     parser.add_argument("--host", dest="host", help="Host address to bind to", default="127.0.0.1")
     parser.add_argument("--port", dest="port", help="Port to listen on")
     parser.add_argument("--debug", dest="debug", action="store_true", help="Enable debugging")
-
     args = parser.parse_args()
 
     if args.debug:
         logging.basicConfig(level=logging.DEBUG)
 
     app = generate_app(args.config)
-
     logging.info(f"Starting Shopping List System version {__version__}")
-
     if args.port is None:
         args.port = 8080
     app.run(port=args.port, host=args.host)

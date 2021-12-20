@@ -18,7 +18,7 @@ class ShoppingList(SqlAlchemyBase, SerializerMixin):
 class Product(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'Product'
     id = Column(Integer, primary_key=True)
-    name = Column(String(64))
+    name = Column(String(64), unique=True)
     descr = Column(Text, unique=False, nullable=True)
     shopping_list_id = Column(Integer, ForeignKey('ShoppingList.id'))  # FK
     is_purchased = Column(Boolean)
