@@ -12,14 +12,23 @@ SQLite can be used as the storage database.
 
 ## Setup
 
+```
 make venv
-
+```
+```
 make run
+```
 
+## Testing
+
+```
+make test
+```
 
 ## Running
 
 Try it
+
 http://127.0.0.1:8080/api/v1/healthcheck
 
 API Doc

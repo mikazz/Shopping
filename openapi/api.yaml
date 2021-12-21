@@ -77,12 +77,12 @@ paths:
           description: Shopping list Owner
           required: true
           type: string
-        - name: item
+        - name: update_shopping_list_information
           in: body
-          description: MTB bearer info
+          description: Update Shopping List information
           required: true
           schema:
-            $ref: '#/definitions/shopping_list'
+            $ref: '#/definitions/update_shopping_list_information'
       responses:
         '200':
           description: Successful operation
@@ -206,14 +206,13 @@ definitions:
         description: New shopping list owner name
         type: string
 
-  product_update_information:
+  update_shopping_list_information:
     type: object
+    required:
+      - owner
     properties:
-      name:
-        description: Name of the owner
-        type: string
-      descr:
-        description: Product description
+      owner:
+        description: Set shopping list owner name
         type: string
 
   product:

@@ -2,4 +2,4 @@ SQLAlchemy
 connexion
 connexion[swagger-ui]
 Flask
-flask_sqlalchemy
+pytest

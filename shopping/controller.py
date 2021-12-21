@@ -3,7 +3,7 @@ from flask import abort
 from typing import Any
 from shopping import db_session
 from shopping.models import ShoppingList, Product
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError, MultipleResultsFound, NoResultFound
+from sqlalchemy.exc import SQLAlchemyError, NoResultFound
 logger = logging.getLogger(__name__)
 
 
@@ -30,9 +30,7 @@ def get_db_shopping_list(owner: str):
 def get_shopping_list(owner: str):
     try:
         shopping_list = get_db_shopping_list(owner)
-    except MultipleResultsFound as e:
-        abort(500, "Database constrains error")
-    except NoResultFound as e:
+    except NoResultFound:
         abort(404, "No such shopping list")
     else:
         return shopping_list.as_dict()
@@ -42,24 +40,28 @@ def add_shopping_list(new_shopping_list: dict) -> None:
     """Add shopping list"""
     session = db_session.create_session()
     owner = new_shopping_list["owner"]
-    existing_shopping_list = get_db_shopping_list(owner)
-    if existing_shopping_list:
+    try:
+        get_db_shopping_list(owner)
+    except NoResultFound:
+        pass
+    else:
         abort(400, f"Shopping List with owner: {owner} already exists")
 
     shopping_list = ShoppingList(owner=owner)
     session.add(shopping_list)
     try:
         session.commit()
-    except IntegrityError:
-        abort(400)
     except SQLAlchemyError:
         abort(400, "Cant add new shopping list")
     else:
-        logger.debug(f"Added new shopping list {shopping_list.owner}")
+        logger.debug(f"Added new shopping list: {shopping_list.owner}")
 
 
-def update_shopping_list(owner: str):
+def update_shopping_list(owner: str, update_shopping_list_information: dict):
     """Update shopping list"""
+    session = db_session.create_session()
+    session.query(ShoppingList).filter(ShoppingList.owner == owner).update(update_shopping_list_information)
+    session.commit()
 
 
 def delete_shopping_list(owner: str) -> None:
@@ -104,11 +106,10 @@ def add_product(new_product: dict):
     is_purchased = new_product["is_purchased"]
     try:
         shopping_list = get_db_shopping_list(owner)
-    except NoResultFound as e:
+    except NoResultFound:
         abort(404, f"No such shopping list for {owner}")
     else:
         product = Product(name=name, descr=descr, shopping_list_id=shopping_list.id, is_purchased=is_purchased)
-        # product = session.query(Product).filter(Product.name == name)
         session.add(product)
         session.commit()
 
@@ -123,7 +124,3 @@ def delete_product(name: str):
     session = db_session.create_session()
     session.query(Product).filter(Product.name == name).delete()
     session.commit()
-
-
-# def set_product_purchased():
-#     get_db_product

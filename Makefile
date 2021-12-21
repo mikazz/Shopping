@@ -1,5 +1,6 @@
 PYTHON=     python3
 VENV=       venv
+PYTEST_FLAGS=	-vv --isort --black
 
 $(VENV): $(VENV)/.depend
 
@@ -14,6 +15,10 @@ $(VENV)/.depend: requirements.txt setup.py
 
 run: $(VENV)
 	$(VENV)/bin/python server.py
+
+
+test: $(VENV)
+	$(VENV)/bin/pytest .
 
 
 clean: $(VENV)
