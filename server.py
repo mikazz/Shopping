@@ -1,13 +1,15 @@
-from shopping import __version__, db_session
 import argparse
 import logging
 import os
 import pathlib
 from typing import Optional
+
 import connexion
 from flask.app import Flask
+from shopping import __version__, db_session
 
 DEFAULT_CONFIG = os.path.join("config.yaml")
+logger = logging.getLogger(__name__)
 
 
 def app_factory() -> Flask:
@@ -43,11 +45,13 @@ def main() -> None:
 
     if args.debug:
         logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)
 
     app = generate_app(args.config)
-    logging.info(f"Starting Shopping List System version {__version__}")
+    logger.info(f"Starting Shopping List System version {__version__}")
     if args.port is None:
-        args.port = 8080
+        args.port = 9999
     app.run(port=args.port, host=args.host)
 
 

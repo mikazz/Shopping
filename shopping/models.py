@@ -1,6 +1,6 @@
-from sqlalchemy import String, Text, Column, Integer, Boolean, ForeignKey
-from sqlalchemy.orm import relationship
 from shopping.db_session import SqlAlchemyBase
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import relationship
 
 
 class SerializerMixin:

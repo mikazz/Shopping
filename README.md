@@ -29,7 +29,7 @@ make test
 
 Try it
 
-http://127.0.0.1:8080/api/v1/healthcheck
+http://127.0.0.1:9999/api/v1/healthcheck
 
 API Doc
-http://127.0.0.1:8080/api/v1/ui/#/default
+http://127.0.0.1:9999/api/v1/ui/#/default

@@ -1,9 +1,9 @@
 import logging
 
-from sqlalchemy import create_engine
-import sqlalchemy.orm as orm
-from sqlalchemy.orm import Session
 import sqlalchemy.ext.declarative as dec
+import sqlalchemy.orm as orm
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +11,8 @@ SqlAlchemyBase = dec.declarative_base()
 __factory = None
 
 
-def global_init(db_file):
+def global_init(db_file) -> None:
+    """Session factory"""
     global __factory
 
     if __factory:
@@ -35,3 +36,8 @@ def global_init(db_file):
 def create_session() -> Session:
     global __factory
     return __factory()
+
+
+def close_session():
+    return __factory().close()
+

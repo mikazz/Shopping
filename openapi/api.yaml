@@ -84,10 +84,11 @@ paths:
           schema:
             $ref: '#/definitions/update_shopping_list_information'
       responses:
-        '200':
+        '202':
           description: Successful operation
     delete:
-      description: Delete Shopping List.
+      summary: Delete Shopping List
+      description: Delete given shopping list.
       operationId: delete_shopping_list
       x-swagger-router-controller: shopping.controller
       parameters:
@@ -171,7 +172,7 @@ paths:
           schema:
             $ref: '#/definitions/update_product_information'
       responses:
-        '200':
+        '202':
           description: Successful operation
 
     delete:
@@ -225,7 +226,7 @@ definitions:
         description: Product description
         type: string
       owner:
-        description: Product owner name, FK to ProductList
+        description: Product owner name, FK to ShoppingList
         type: string
       is_purchased:
         description: Has product been purchased
@@ -240,8 +241,8 @@ definitions:
       descr:
         description: Product description
         type: string
-      owner:
-        description: Assign Product to given owner, FK to ProductList
+      shopping_list_id:
+        description: Assign Product to given shopping_list.owner Name, FK to ShoppingList
         type: string
       is_purchased:
         description: Has product been purchased
@@ -250,8 +251,14 @@ definitions:
   update_product_information:
     type: object
     properties:
+      name:
+        description: Product Name
+        type: string
       descr:
         description: Product description
+        type: string
+      shopping_list_id:
+        description: Assign Product to ShoppingList id, FK to ShoppingList
         type: string
       is_purchased:
         description: Has product been purchased

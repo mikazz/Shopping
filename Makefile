@@ -1,6 +1,5 @@
 PYTHON=     python3
 VENV=       venv
-PYTEST_FLAGS=	-vv --isort --black
 
 $(VENV): $(VENV)/.depend
 
