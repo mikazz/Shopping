@@ -10,7 +10,7 @@ from shopping.exceptions import ProductNotFound
 
 class TestDataModel(unittest.TestCase):
     def setUp(self):
-        db_session.global_init(':memory:')
+        db_session.global_init('sqlite:///:memory:?check_same_thread=False')
         shopping_list_data = {"owner": "Steve"}
         add_shopping_list(shopping_list_data)
         self.common_shopping_list = get_db_shopping_list(owner="Steve")
