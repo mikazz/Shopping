@@ -4,6 +4,7 @@ import os
 import pathlib
 from typing import Optional
 
+import configuration
 import connexion
 from flask.app import Flask
 from shopping import __version__, db_session
@@ -22,14 +23,9 @@ def app_factory() -> Flask:
 
 def generate_app(config_file: Optional[str] = None) -> Flask:
     """Generate app"""
-    db_session.global_init('mars_db.sqlite')
+    configuration.init(config_file)
+    db_session.global_init(configuration.config.sqlite)
     return app_factory()
-
-
-def generate_test_client(config_file: Optional[str] = None):
-    """Unit servertest"""
-    app = generate_app(config_file)
-    return app.test_client()
 
 
 def main() -> None:

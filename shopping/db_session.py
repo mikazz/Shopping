@@ -11,17 +11,16 @@ SqlAlchemyBase = dec.declarative_base()
 __factory = None
 
 
-def global_init(db_file) -> None:
+def global_init(conn_str) -> None:
     """Session factory"""
     global __factory
 
     if __factory:
         return
 
-    if not db_file or not db_file.strip():
-        raise Exception("You must specify a database")
+    if not conn_str or not conn_str.strip():
+        raise Exception("You must specify connection string")
 
-    conn_str = f'sqlite:///{db_file.strip()}?check_same_thread=False'
     logger.debug(f"Connecting to the database: {conn_str}")
 
     engine = create_engine(conn_str, echo=False)
