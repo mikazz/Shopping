@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 class Configuration:
     def __init__(self, conf: Dict) -> None:
         self.sqlite = conf.get("sqlite", {})
+        
         logger.debug(f"Loaded {''.join([i for i in conf.keys()])} ")
 
     @classmethod

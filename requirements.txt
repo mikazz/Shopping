@@ -3,3 +3,4 @@ connexion
 connexion[swagger-ui]
 Flask
 pytest
+psycopg2
